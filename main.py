@@ -10,6 +10,8 @@ from reports import REPORTS
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+REQUIRED_COLUMNS = {"title", "ctr", "retention_rate"}
+
 
 def read_csv_files(file_paths: list[str]) -> list[dict]:
     rows = []
@@ -17,6 +19,9 @@ def read_csv_files(file_paths: list[str]) -> list[dict]:
         try:
             with open(path, newline="", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
+                if missing := REQUIRED_COLUMNS - set(reader.fieldnames or []):
+                    logger.error("Missing columns in %s: %s", path, ", ".join(missing))
+                    sys.exit(1)
                 rows.extend(reader)
         except FileNotFoundError:
             logger.error("File not found: %s", path)

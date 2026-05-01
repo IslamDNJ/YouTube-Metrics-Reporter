@@ -3,9 +3,14 @@
 CLI-приложение для анализа метрик YouTube-видео из CSV-файлов.
 
 ## Установка зависимостей
-
-```bash
+Для работы приложения
+```bach
 pip install -r requirements.txt
+```
+
+Разработка и тесты
+```bach
+pip install -r requirements-dev.txt
 ```
 
 ## Запуск
@@ -38,4 +43,10 @@ REPORTS = {
     "clickbait": clickbait_report,
     "my_report": my_report,
 }
+```
+
+## Линтер
+
+```bash
+ruff check main.py reports.py
 ```
